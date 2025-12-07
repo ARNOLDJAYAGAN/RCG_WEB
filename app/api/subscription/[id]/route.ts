@@ -1,12 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: { id: string } } // App Router passes params here
 ) {
   try {
-    const userId = params.id;
+    // ✅ unwrap params in case it's a Promise
+    const resolvedParams = await params; 
+    const userId = resolvedParams.id;
 
     const result = await pool.query(
       `SELECT * FROM subscriptions 
