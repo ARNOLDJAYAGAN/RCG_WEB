@@ -14,7 +14,7 @@ export default function AdminLoginPage() {
   useEffect(() => {
     const adminEmail = sessionStorage.getItem("admin_email");
     if (adminEmail) {
-      router.replace("/admin-dashboard");
+      router.replace("/dashboard/admin");
     }
   }, [router]);
 
@@ -42,8 +42,8 @@ export default function AdminLoginPage() {
       // Save login state
       sessionStorage.setItem("admin_email", email.trim());
 
-      // Redirect to dashboard
-      router.push("/admin-dashboard");
+      // Redirect to admin dashboard
+      router.push("/dashboard/admin");
     } catch (err) {
       console.error(err);
       alert("Login failed");

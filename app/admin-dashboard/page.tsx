@@ -15,7 +15,7 @@ interface Subscription {
   price: number;
   status: string;
   subscribed_at: string;
-  expires_at: string | null;
+  expires_at: string;
 }
 
 export default function AdminDashboard() {
@@ -55,12 +55,13 @@ export default function AdminDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
+
       const data = await res.json();
       if (data.success) {
         await fetchSubscriptions();
         alert("Subscription approved!");
       } else {
-        alert(data.message || "Error approving subscription");
+        alert(data.message);
       }
     } catch (err) {
       console.error("Admin approve error:", err);
@@ -71,11 +72,7 @@ export default function AdminDashboard() {
   };
 
   if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-black">
-        <Loader2 className="animate-spin w-10 h-10 text-orange-500" />
-      </div>
-    );
+    return <Loader2 className="animate-spin w-10 h-10 mx-auto mt-20 text-orange-500" />;
 
   return (
     <div className="min-h-screen p-8 bg-black">
@@ -94,7 +91,6 @@ export default function AdminDashboard() {
               <th className="px-6 py-3 text-gray-200 font-semibold">Price</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Status</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Subscribed At</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Expires At</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Action</th>
             </tr>
           </thead>
@@ -121,9 +117,6 @@ export default function AdminDashboard() {
                 </td>
                 <td className="px-6 py-4 text-gray-100">
                   {new Date(sub.subscribed_at).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4 text-gray-100">
-                  {sub.expires_at ? new Date(sub.expires_at).toLocaleDateString() : "N/A"}
                 </td>
                 <td className="px-6 py-4">
                   {sub.status === "pending" ? (
