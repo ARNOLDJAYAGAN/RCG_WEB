@@ -43,9 +43,10 @@ export default function HomePage() {
           Transform Your Body, <span className="text-primary">Elevate Your Life</span>
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto text-pretty">
-          Join RCG Fitness and experience world-class training facilities, expert guidance, and a community
-          that pushes you to achieve your fitness goals.
+          Join RCG Fitness and experience world-class training facilities, expert guidance, and a
+          community that pushes you to achieve your fitness goals.
         </p>
+
         {!user && (
           <Button
             asChild
@@ -61,6 +62,7 @@ export default function HomePage() {
         <h2 className="text-3xl md:text-5xl font-bold mb-12">
           Our <span className="text-primary">Facilities</span>
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           <Card className="bg-secondary border-border hover:border-primary transition-colors">
             <CardContent className="p-6 text-center">
@@ -69,6 +71,7 @@ export default function HomePage() {
               <p className="text-muted-foreground">State-of-the-art equipment</p>
             </CardContent>
           </Card>
+
           <Card className="bg-secondary border-border hover:border-primary transition-colors">
             <CardContent className="p-6 text-center">
               <Users className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -76,6 +79,7 @@ export default function HomePage() {
               <p className="text-muted-foreground">Dynamic group sessions</p>
             </CardContent>
           </Card>
+
           <Card className="bg-secondary border-border hover:border-primary transition-colors">
             <CardContent className="p-6 text-center">
               <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -83,6 +87,7 @@ export default function HomePage() {
               <p className="text-muted-foreground">Train anytime</p>
             </CardContent>
           </Card>
+
           <Card className="bg-secondary border-border hover:border-primary transition-colors">
             <CardContent className="p-6 text-center">
               <Award className="w-12 h-12 text-primary mx-auto mb-4" />
@@ -98,6 +103,7 @@ export default function HomePage() {
         <h2 className="text-3xl md:text-5xl font-bold mb-12">
           Membership <span className="text-primary">Plans</span>
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
 
           {/* Basic */}
@@ -112,7 +118,7 @@ export default function HomePage() {
                 <li>✔ Basic Equipment</li>
                 <li>✔ Locker Room Access</li>
               </ul>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => goToPayment("Basic", 499)}>
+              <Button className="w-full" onClick={() => goToPayment("Basic", 499)}>
                 Choose Plan
               </Button>
             </CardContent>
@@ -131,7 +137,7 @@ export default function HomePage() {
                 <li>✔ Priority Locker</li>
                 <li>✔ Trainer Assistance</li>
               </ul>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => goToPayment("Standard", 999)}>
+              <Button className="w-full" onClick={() => goToPayment("Standard", 999)}>
                 Choose Plan
               </Button>
             </CardContent>
@@ -150,12 +156,46 @@ export default function HomePage() {
                 <li>✔ Free Personal Training (2 sessions)</li>
                 <li>✔ Sauna & Premium Locker</li>
               </ul>
-              <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => goToPayment("Premium", 1499)}>
+              <Button className="w-full" onClick={() => goToPayment("Premium", 1499)}>
                 Choose Plan
               </Button>
             </CardContent>
           </Card>
+        </div>
+      </section>
 
+      {/* ⭐ Reviews Section */}
+      <section className="py-20 bg-secondary text-center">
+        <h2 className="text-3xl md:text-5xl font-bold mb-12">
+          What Our <span className="text-primary">Members Say</span>
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {[
+            {
+              name: "John D.",
+              rating: 5,
+              comment: "Amazing experience! The gym has everything I need.",
+            },
+            {
+              name: "Maria P.",
+              rating: 4,
+              comment: "Great staff and clean facilities. Highly recommended!",
+            },
+            {
+              name: "Kevin R.",
+              rating: 5,
+              comment: "Best gym in town! The environment keeps me motivated.",
+            },
+          ].map((r, i) => (
+            <Card key={i} className="bg-card border-border shadow-lg">
+              <CardContent className="p-6">
+                <p className="text-primary text-xl mb-2">{"★".repeat(r.rating)}</p>
+                <p className="text-muted-foreground mb-4">{r.comment}</p>
+                <p className="font-medium">— {r.name}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
