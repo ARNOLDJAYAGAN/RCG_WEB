@@ -11,7 +11,34 @@ interface User {
 
 export function Header() {
   const [user, setUser] = useState<User | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("");
 
+  // Track scroll position to keep the active tab highlighted
+  useEffect(() => {
+    const sections = ["facilities", "membership", "reviews"];
+
+    const handleScroll = () => {
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        const rect = el.getBoundingClientRect();
+
+        // Section is visible in viewport
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          setActiveSection(id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // initialize
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Check user session
   useEffect(() => {
     const checkSession = async () => {
       try {
@@ -35,20 +62,20 @@ export function Header() {
   };
 
   const scrollToSection = (id: string) => {
-    // Ensure this only runs on client
-    if (typeof window === "undefined") return;
     const section = document.getElementById(id);
-
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
-    } else {
-      console.warn(`Section '${id}' not found.`);
+      setActiveSection(id); // stay active even after switching content
     }
   };
 
-  return (
-    <header className="flex flex-col md:flex-row justify-between items-center px-8 py-4 bg-background w-full z-50">
+  const navItemClass = (id: string) =>
+    `text-primary font-semibold hover:underline transition ${
+      activeSection === id ? "underline" : ""
+    }`;
 
+  return (
+    <header className="flex flex-col md:flex-row justify-between items-center px-8 py-4 bg-background w-full z-50 sticky top-0">
       {/* Logo */}
       <h1
         className="text-3xl font-bold text-primary cursor-pointer"
@@ -61,19 +88,21 @@ export function Header() {
       <nav className="flex space-x-6 mt-4 md:mt-0 justify-center">
         <button
           onClick={() => scrollToSection("facilities")}
-          className="text-primary font-semibold hover:underline"
+          className={navItemClass("facilities")}
         >
           Facilities
         </button>
+
         <button
           onClick={() => scrollToSection("membership")}
-          className="text-primary font-semibold hover:underline"
+          className={navItemClass("membership")}
         >
           Membership
         </button>
+
         <button
           onClick={() => scrollToSection("reviews")}
-          className="text-primary font-semibold hover:underline"
+          className={navItemClass("reviews")}
         >
           Reviews
         </button>
