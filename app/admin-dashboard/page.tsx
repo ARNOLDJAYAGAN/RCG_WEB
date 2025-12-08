@@ -15,7 +15,6 @@ interface Subscription {
   price: number;
   status: string;
   subscribed_at: string;
-  expires_at: string;
 }
 
 export default function AdminDashboard() {
@@ -35,7 +34,6 @@ export default function AdminDashboard() {
   }, [router]);
 
   const fetchSubscriptions = async () => {
-    setLoading(true);
     try {
       const res = await fetch("/api/subscription/admin");
       const data = await res.json();
@@ -55,7 +53,6 @@ export default function AdminDashboard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),
       });
-
       const data = await res.json();
       if (data.success) {
         await fetchSubscriptions();
