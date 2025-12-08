@@ -80,13 +80,14 @@ export function AuthForm() {
       {/* Clickable RCG Fitness header */}
       <h1
         className="text-4xl font-bold text-primary mb-8 cursor-pointer"
-        onClick={() => router.push("/")} // Redirect to homepage
+        onClick={() => router.push("/")}
       >
         RCG Fitness
       </h1>
 
-      <Card className="w-full max-w-md bg-card border-border">
-        <CardHeader>
+      {/* Wider card */}
+      <Card className="w-full max-w-4xl md:max-w-3xl lg:max-w-5xl bg-card border-border">
+        <CardHeader className="text-center md:text-left">
           <CardTitle className="text-2xl font-bold">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
@@ -98,7 +99,7 @@ export function AuthForm() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
             {!isLogin && (
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
@@ -151,42 +152,45 @@ export function AuthForm() {
               </div>
             )}
 
-            {error && (
-              <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md">
-                {error}
-              </div>
-            )}
-
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Please wait
-                </>
-              ) : isLogin ? (
-                "Sign In"
-              ) : (
-                "Create Account"
+            {/* Full width error and buttons below the inputs */}
+            <div className="md:col-span-2">
+              {error && (
+                <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md mb-4">
+                  {error}
+                </div>
               )}
-            </Button>
 
-            <div className="text-center text-sm">
-              <button
-                type="button"
-                className="text-primary hover:underline"
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  setError("");
-                }}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold mb-4"
               >
-                {isLogin
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
-              </button>
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : isLogin ? (
+                  "Sign In"
+                ) : (
+                  "Create Account"
+                )}
+              </Button>
+
+              <div className="text-center text-sm">
+                <button
+                  type="button"
+                  className="text-primary hover:underline"
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setError("");
+                  }}
+                >
+                  {isLogin
+                    ? "Don't have an account? Sign up"
+                    : "Already have an account? Sign in"}
+                </button>
+              </div>
             </div>
           </form>
         </CardContent>
