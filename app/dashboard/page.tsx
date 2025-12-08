@@ -56,12 +56,16 @@ export default function DashboardPage() {
     getUser();
   }, [router]);
 
-  // Fetch subscription
+  // Fetch subscription with expired update
   useEffect(() => {
     if (!user) return;
 
     const getSubscription = async () => {
       try {
+        // Step 0: Update expired subscriptions for all users
+        await fetch(`${API_BASE}/update-expired`, { method: "POST" });
+
+        // Step 1: Fetch the latest subscription
         const res = await fetch(`${API_BASE}/subscription/${user.id}`);
         if (!res.ok) {
           setSubscription(null);
