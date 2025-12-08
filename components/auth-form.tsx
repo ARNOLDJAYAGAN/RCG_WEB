@@ -32,7 +32,6 @@ export function AuthForm() {
     try {
       const endpoint = isLogin ? "/api/auth/login" : "/api/auth/register";
 
-      // Registration validation
       if (!isLogin) {
         if (!name || !email || !password) {
           setError("Name, email, and password are required");
@@ -76,112 +75,122 @@ export function AuthForm() {
   };
 
   return (
-    <Card className="w-full max-w-md bg-card border-border">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold">
-          {isLogin ? "Welcome Back" : "Create Account"}
-        </CardTitle>
-        <CardDescription className="text-muted-foreground">
-          {isLogin
-            ? "Sign in to continue your fitness journey"
-            : "Start your transformation today"}
-        </CardDescription>
-      </CardHeader>
+    <div className="flex flex-col items-center min-h-screen justify-center px-4 bg-background">
+      
+      {/* Clickable RCG Fitness header */}
+      <h1
+        className="text-4xl font-bold text-primary mb-8 cursor-pointer"
+        onClick={() => router.push("/")} // Redirect to homepage
+      >
+        RCG Fitness
+      </h1>
 
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <Card className="w-full max-w-md bg-card border-border">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">
+            {isLogin ? "Welcome Back" : "Create Account"}
+          </CardTitle>
+          <CardDescription className="text-muted-foreground">
+            {isLogin
+              ? "Sign in to continue your fitness journey"
+              : "Start your transformation today"}
+          </CardDescription>
+        </CardHeader>
 
-          {!isLogin && (
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </div>
+            )}
+
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="name"
-                type="text"
-                placeholder="Your name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-          )}
 
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {!isLogin && (
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
-                id="confirmPassword"
+                id="password"
                 type="password"
                 placeholder="••••••••"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-          )}
 
-          {error && (
-            <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md">
-              {error}
-            </div>
-          )}
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Please wait
-              </>
-            ) : isLogin ? (
-              "Sign In"
-            ) : (
-              "Create Account"
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
             )}
-          </Button>
 
-          <div className="text-center text-sm">
-            <button
-              type="button"
-              className="text-primary hover:underline"
-              onClick={() => {
-                setIsLogin(!isLogin);
-                setError("");
-              }}
+            {error && (
+              <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md">
+                {error}
+              </div>
+            )}
+
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
             >
-              {isLogin
-                ? "Don't have an account? Sign up"
-                : "Already have an account? Sign in"}
-            </button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </>
+              ) : isLogin ? (
+                "Sign In"
+              ) : (
+                "Create Account"
+              )}
+            </Button>
+
+            <div className="text-center text-sm">
+              <button
+                type="button"
+                className="text-primary hover:underline"
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError("");
+                }}
+              >
+                {isLogin
+                  ? "Don't have an account? Sign up"
+                  : "Already have an account? Sign in"}
+              </button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
