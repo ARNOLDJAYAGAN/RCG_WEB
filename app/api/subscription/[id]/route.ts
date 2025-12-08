@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, context: any) {
   try {
-    const { id: userId } = params;
+    // Await the params promise
+    const params = await context.params;
+    const userId = params.id;
 
     if (!userId) {
       return NextResponse.json(
@@ -15,7 +14,7 @@ export async function GET(
       );
     }
 
-    // Step 1: Update expired subscriptions for this user
+    // Update expired subscriptions
     await pool.query(
       `
       UPDATE subscriptions
@@ -28,7 +27,7 @@ export async function GET(
       [userId]
     );
 
-    // Step 2: Fetch the latest subscription
+    // Fetch latest subscription
     const result = await pool.query(
       `
       SELECT * FROM subscriptions
