@@ -3,12 +3,18 @@ import { pool } from "@/lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } } // App Router passes params here
+  { params }: { params: { id: string } } 
 ) {
   try {
-    // ✅ unwrap params in case it's a Promise
-    const resolvedParams = await params; 
-    const userId = resolvedParams.id;
+    // ❌ NO AWAIT HERE
+    const userId = params.id; 
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "Missing userId" },
+        { status: 400 }
+      );
+    }
 
     const result = await pool.query(
       `SELECT * FROM subscriptions 
@@ -29,6 +35,7 @@ export async function GET(
       success: true,
       subscription: result.rows[0],
     });
+
   } catch (err: any) {
     console.error("Fetch subscription error:", err);
     return NextResponse.json(
