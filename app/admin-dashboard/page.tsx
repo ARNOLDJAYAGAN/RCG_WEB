@@ -15,6 +15,7 @@ interface Subscription {
   price: number;
   status: string;
   subscribed_at: string;
+  expires_at: string | null;
 }
 
 export default function AdminDashboard() {
@@ -34,6 +35,7 @@ export default function AdminDashboard() {
   }, [router]);
 
   const fetchSubscriptions = async () => {
+    setLoading(true);
     try {
       const res = await fetch("/api/subscription/admin");
       const data = await res.json();
@@ -58,7 +60,7 @@ export default function AdminDashboard() {
         await fetchSubscriptions();
         alert("Subscription approved!");
       } else {
-        alert(data.message);
+        alert(data.message || "Error approving subscription");
       }
     } catch (err) {
       console.error("Admin approve error:", err);
@@ -69,7 +71,11 @@ export default function AdminDashboard() {
   };
 
   if (loading)
-    return <Loader2 className="animate-spin w-10 h-10 mx-auto mt-20 text-orange-500" />;
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <Loader2 className="animate-spin w-10 h-10 text-orange-500" />
+      </div>
+    );
 
   return (
     <div className="min-h-screen p-8 bg-black">
@@ -88,6 +94,7 @@ export default function AdminDashboard() {
               <th className="px-6 py-3 text-gray-200 font-semibold">Price</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Status</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Subscribed At</th>
+              <th className="px-6 py-3 text-gray-200 font-semibold">Expires At</th>
               <th className="px-6 py-3 text-gray-200 font-semibold">Action</th>
             </tr>
           </thead>
@@ -114,6 +121,9 @@ export default function AdminDashboard() {
                 </td>
                 <td className="px-6 py-4 text-gray-100">
                   {new Date(sub.subscribed_at).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 text-gray-100">
+                  {sub.expires_at ? new Date(sub.expires_at).toLocaleDateString() : "N/A"}
                 </td>
                 <td className="px-6 py-4">
                   {sub.status === "pending" ? (

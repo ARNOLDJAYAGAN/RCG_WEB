@@ -15,12 +15,19 @@ export async function POST(req: NextRequest) {
 
     console.log("Payment body:", data);
 
+    // Optionally fetch user email
+    const userRes = await pool.query(
+      "SELECT email FROM users WHERE id = $1",
+      [user_id]
+    );
+    const email = userRes.rows[0]?.email || null;
+
     const result = await pool.query(
       `INSERT INTO subscriptions 
-       (user_id, plan, price, name, phone, status, subscribed_at)
-       VALUES ($1, $2, $3, $4, $5, 'pending', NOW())
+       (user_id, email, plan, price, name, phone, status, subscribed_at, expires_at)
+       VALUES ($1, $2, $3, $4, $5, $6, 'pending', NOW(), NOW() + INTERVAL '1 month')
        RETURNING *`,
-      [user_id, plan, parseFloat(price), name, phone]
+      [user_id, email, plan, parseFloat(price), name, phone]
     );
 
     console.log("Inserted payment subscription:", result.rows[0]);

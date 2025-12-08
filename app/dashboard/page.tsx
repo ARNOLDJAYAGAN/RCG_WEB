@@ -20,12 +20,11 @@ interface Subscription {
   price: number;
   status: string;
   subscribed_at: string;
-  expires_at: string;
+  expires_at: string | null;
 }
 
 export default function DashboardPage() {
   const router = useRouter();
-
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
@@ -79,18 +78,13 @@ export default function DashboardPage() {
     getSubscription();
   }, [user]);
 
-  // DELETE ACCOUNT FUNCTION
+  // DELETE ACCOUNT
   const handleDeleteAccount = async () => {
     if (!confirm("⚠️ Are you sure you want to delete your account? This action cannot be undone.")) return;
-
     setDeleting(true);
 
     try {
-      const res = await fetch("/api/delete-account", {
-        method: "DELETE",
-        credentials: "include",
-      });
-
+      const res = await fetch("/api/delete-account", { method: "DELETE", credentials: "include" });
       const data = await res.json();
 
       if (!res.ok || !data.success) {
@@ -108,7 +102,7 @@ export default function DashboardPage() {
     }
   };
 
-  // LOGOUT FUNCTION
+  // LOGOUT
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
@@ -172,7 +166,10 @@ export default function DashboardPage() {
                   <p><strong>Plan:</strong> {subscription.plan}</p>
                   <p><strong>Price:</strong> ₱{subscription.price}/month</p>
                   <p><strong>Subscribed At:</strong> {new Date(subscription.subscribed_at).toLocaleString()}</p>
-                  <p><strong>Expires At:</strong> {new Date(subscription.expires_at).toLocaleString()}</p>
+                  <p>
+                    <strong>Expires At:</strong>{" "}
+                    {subscription.expires_at ? new Date(subscription.expires_at).toLocaleString() : "N/A"}
+                  </p>
                 </CardContent>
               </Card>
             )}
@@ -181,18 +178,14 @@ export default function DashboardPage() {
           <p className="text-white mb-4">You have no subscriptions. Choose a membership to get started.</p>
         )}
 
-        {/* DELETE ACCOUNT & LOGOUT BUTTONS */}
+        {/* DELETE ACCOUNT & LOGOUT */}
         <div className="flex gap-4 mt-4">
           <Button
             onClick={handleDeleteAccount}
             variant="destructive"
             disabled={deleting}
           >
-            {deleting ? (
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-            ) : (
-              "Delete Account"
-            )}
+            {deleting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Delete Account"}
           </Button>
 
           <Button
@@ -200,11 +193,7 @@ export default function DashboardPage() {
             variant="secondary"
             disabled={loggingOut}
           >
-            {loggingOut ? (
-              <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-            ) : (
-              "Logout"
-            )}
+            {loggingOut ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Logout"}
           </Button>
         </div>
       </main>
