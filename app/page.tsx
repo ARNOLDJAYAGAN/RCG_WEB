@@ -165,7 +165,7 @@ export default function HomePage() {
       </section>
 
       {/* ⭐ Reviews Section */}
-      <section className="py-20 bg-secondary text-center">
+      <section id="reviews" className="py-20 bg-secondary text-center">
         <h2 className="text-3xl md:text-5xl font-bold mb-12">
           What Our <span className="text-primary">Members Say</span>
         </h2>

@@ -1,46 +1,53 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 interface User {
-  id: number
-  email: string
-  role: string
+  id: number;
+  email: string;
+  role: string;
 }
 
 export function Header() {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await fetch("/api/auth/me", { credentials: "include" })
-        const data = await res.json()
-        if (data.loggedIn) setUser(data.user)
+        const res = await fetch("/api/auth/me", { credentials: "include" });
+        const data = await res.json();
+        if (data.loggedIn) setUser(data.user);
       } catch {
-        setUser(null)
+        setUser(null);
       }
-    }
+    };
 
-    checkSession()
-  }, [])
+    checkSession();
+  }, []);
 
   const handleLogoClick = () => {
     if (user) {
-      window.location.href = "/dashboard"
+      window.location.href = "/dashboard";
     } else {
-      window.scrollTo({ top: 0, behavior: "smooth" })
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }
+  };
 
   const scrollToSection = (id: string) => {
-    const section = document.getElementById(id)
-    section?.scrollIntoView({ behavior: "smooth" })
-  }
+    // Ensure this only runs on client
+    if (typeof window === "undefined") return;
+    const section = document.getElementById(id);
+
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.warn(`Section '${id}' not found.`);
+    }
+  };
 
   return (
-    <header className="flex flex-col md:flex-row justify-between items-center px-8 py-4 bg-background">
+    <header className="flex flex-col md:flex-row justify-between items-center px-8 py-4 bg-background w-full z-50">
 
       {/* Logo */}
       <h1
@@ -50,7 +57,7 @@ export function Header() {
         RCG Fitness
       </h1>
 
-      {/* Center nav */}
+      {/* Navigation */}
       <nav className="flex space-x-6 mt-4 md:mt-0 justify-center">
         <button
           onClick={() => scrollToSection("facilities")}
@@ -72,7 +79,7 @@ export function Header() {
         </button>
       </nav>
 
-      {/* Right side button */}
+      {/* Right Side Button */}
       <div className="mt-4 md:mt-0">
         {user ? (
           <Link
@@ -91,5 +98,5 @@ export function Header() {
         )}
       </div>
     </header>
-  )
+  );
 }
