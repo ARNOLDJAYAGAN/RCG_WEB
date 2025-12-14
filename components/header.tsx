@@ -99,13 +99,6 @@ export function Header() {
         >
           Membership
         </button>
-
-        <button
-          onClick={() => scrollToSection("reviews")}
-          className={navItemClass("reviews")}
-        >
-          Reviews
-        </button>
       </nav>
 
       {/* Right Side Button */}
