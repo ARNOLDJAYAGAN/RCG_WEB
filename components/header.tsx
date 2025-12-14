@@ -15,7 +15,7 @@ export function Header() {
 
   // Track scroll position to keep the active tab highlighted
   useEffect(() => {
-    const sections = ["facilities", "membership", "reviews"];
+    const sections = ["facilities", "membership"];
 
     const handleScroll = () => {
       for (const id of sections) {
