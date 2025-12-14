@@ -23,11 +23,10 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [processingId, setProcessingId] = useState<number | null>(null);
 
-  // Check admin login
   useEffect(() => {
     const adminEmail = sessionStorage.getItem("admin_email");
     if (!adminEmail) {
-      router.replace("/admin"); // redirect to login if not logged in
+      router.replace("/admin");
     } else {
       fetchSubscriptions();
     }
@@ -69,69 +68,62 @@ export default function AdminDashboard() {
   };
 
   if (loading)
-    return <Loader2 className="animate-spin w-10 h-10 mx-auto mt-20 text-orange-500" />;
+    return (
+      <div className="loading-page">
+        <Loader2 className="loading-spinner" />
+      </div>
+    );
 
   return (
-    <div className="min-h-screen p-8 bg-black">
-      <h1 className="text-3xl font-bold mb-6 text-orange-500">
-        Subscription Management
-      </h1>
+    <div className="admin-page">
+      <h1 className="admin-title">Subscription Management</h1>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-gray-900 shadow-md rounded-lg overflow-hidden border border-gray-700">
-          <thead className="bg-gray-800 text-left">
+      <div className="table-wrapper">
+        <table className="admin-table">
+          <thead className="table-head">
             <tr>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Name</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Email</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Phone</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Plan</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Price</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Status</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Subscribed At</th>
-              <th className="px-6 py-3 text-gray-200 font-semibold">Action</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Plan</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Subscribed At</th>
+              <th>Action</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
+
+          <tbody className="table-body">
             {subscriptions.map((sub) => (
-              <tr key={sub.id} className="hover:bg-gray-800 transition">
-                <td className="px-6 py-4 text-gray-100">{sub.name}</td>
-                <td className="px-6 py-4 text-gray-100">{sub.email}</td>
-                <td className="px-6 py-4 text-gray-100">{sub.phone}</td>
-                <td className="px-6 py-4 font-semibold text-orange-400">{sub.plan}</td>
-                <td className="px-6 py-4 text-gray-100">₱{sub.price}</td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-2 py-1 rounded-full text-sm font-medium ${
-                      sub.status === "active"
-                        ? "bg-green-600 text-white"
-                        : sub.status === "pending"
-                        ? "bg-yellow-500 text-black"
-                        : "bg-gray-700 text-gray-200"
-                    }`}
-                  >
+              <tr key={sub.id} className="table-row">
+                <td>{sub.name}</td>
+                <td>{sub.email}</td>
+                <td>{sub.phone}</td>
+                <td className="plan-text">{sub.plan}</td>
+                <td>₱{sub.price}</td>
+                <td>
+                  <span className={`status-badge ${sub.status}`}>
                     {sub.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-gray-100">
-                  {new Date(sub.subscribed_at).toLocaleDateString()}
-                </td>
-                <td className="px-6 py-4">
+                <td>{new Date(sub.subscribed_at).toLocaleDateString()}</td>
+                <td>
                   {sub.status === "pending" ? (
                     <Button
                       size="sm"
-                      className="bg-orange-500 text-black"
+                      className="approve-button"
                       disabled={processingId === sub.id}
                       onClick={() => handleApprove(sub.id)}
                     >
                       {processingId === sub.id ? (
-                        <Loader2 className="w-4 h-4 animate-spin mr-1 inline-block" />
+                        <Loader2 className="button-spinner" />
                       ) : (
-                        <CheckCircle className="w-4 h-4 mr-1 inline-block" />
+                        <CheckCircle className="button-icon" />
                       )}
                       Approve
                     </Button>
                   ) : (
-                    <span className="text-green-400 font-medium">Approved</span>
+                    <span className="approved-text">Approved</span>
                   )}
                 </td>
               </tr>

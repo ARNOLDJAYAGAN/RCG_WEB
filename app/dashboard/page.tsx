@@ -32,20 +32,13 @@ export default function DashboardPage() {
   const [deleting, setDeleting] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
 
-  // Fetch user session
   useEffect(() => {
     const getUser = async () => {
       try {
         const res = await fetch(`${API_BASE}/auth/me`, { credentials: "include" });
-        if (!res.ok) {
-          router.push("/auth");
-          return;
-        }
+        if (!res.ok) return router.push("/auth");
         const data = await res.json();
-        if (!data.loggedIn) {
-          router.push("/auth");
-          return;
-        }
+        if (!data.loggedIn) return router.push("/auth");
         setUser(data.user);
       } catch {
         router.push("/auth");
@@ -56,24 +49,16 @@ export default function DashboardPage() {
     getUser();
   }, [router]);
 
-  // Fetch subscription with expired update
   useEffect(() => {
     if (!user) return;
 
     const getSubscription = async () => {
       try {
-        // Step 0: Update expired subscriptions for all users
         await fetch(`${API_BASE}/update-expired`, { method: "POST" });
-
-        // Step 1: Fetch the latest subscription
         const res = await fetch(`${API_BASE}/subscription/${user.id}`);
-        if (!res.ok) {
-          setSubscription(null);
-          return;
-        }
+        if (!res.ok) return setSubscription(null);
         const data = await res.json();
-        if (data.success) setSubscription(data.subscription);
-        else setSubscription(null);
+        setSubscription(data.success ? data.subscription : null);
       } catch (err) {
         console.error("Failed to fetch subscription:", err);
       }
@@ -82,7 +67,6 @@ export default function DashboardPage() {
     getSubscription();
   }, [user]);
 
-  // DELETE ACCOUNT
   const handleDeleteAccount = async () => {
     if (!confirm("⚠️ Are you sure you want to delete your account? This action cannot be undone.")) return;
     setDeleting(true);
@@ -92,7 +76,7 @@ export default function DashboardPage() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        alert(data?.error || "Failed to delete account. Please try again.");
+        alert(data?.error || "Failed to delete account.");
         setDeleting(false);
         return;
       }
@@ -101,12 +85,11 @@ export default function DashboardPage() {
       router.push("/auth");
     } catch (err) {
       console.error(err);
-      alert("An error occurred. Please try again.");
+      alert("An error occurred.");
       setDeleting(false);
     }
   };
 
-  // LOGOUT
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
@@ -121,33 +104,25 @@ export default function DashboardPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-10 h-10 text-primary animate-spin" />
+      <div className="loading-page">
+        <Loader2 className="loading-spinner" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="page">
       <SimpleHeader />
 
-      <main className="container mx-auto px-4 py-12 max-w-3xl">
-        <h1 className="text-3xl font-bold mb-8 text-white">Dashboard</h1>
+      <main className="dashboard-container">
+        <h1 className="dashboard-title">Dashboard</h1>
 
         {subscription ? (
           <>
-            <div className="mb-4">
-              <p className="text-white text-lg">
-                <strong>Status: </strong>
-                <span
-                  className={
-                    subscription.status === "active"
-                      ? "text-green-400"
-                      : subscription.status === "pending"
-                      ? "text-yellow-400"
-                      : "text-red-400"
-                  }
-                >
+            <div className="status-box">
+              <p className="status-text">
+                <strong>Status:</strong>{" "}
+                <span className={`status ${subscription.status}`}>
                   {subscription.status.charAt(0).toUpperCase() + subscription.status.slice(1)}
                 </span>
               </p>
@@ -155,41 +130,42 @@ export default function DashboardPage() {
 
             <Button
               onClick={() => setShowDetails(!showDetails)}
-              className="mb-4 flex items-center gap-2"
+              className="toggle-button"
             >
               {showDetails ? "Hide Subscription Details" : "View Subscription Details"}
               {showDetails ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
             </Button>
 
             {showDetails && (
-              <Card className="border border-gray-700 shadow-lg mb-4">
+              <Card className="details-card">
                 <CardHeader>
                   <CardTitle>Subscription Information</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="details-content">
                   <p><strong>Plan:</strong> {subscription.plan}</p>
                   <p><strong>Price:</strong> ₱{subscription.price}/month</p>
                   <p><strong>Subscribed At:</strong> {new Date(subscription.subscribed_at).toLocaleString()}</p>
                   <p>
                     <strong>Expires At:</strong>{" "}
-                    {subscription.expires_at ? new Date(subscription.expires_at).toLocaleString() : "N/A"}
+                    {subscription.expires_at
+                      ? new Date(subscription.expires_at).toLocaleString()
+                      : "N/A"}
                   </p>
                 </CardContent>
               </Card>
             )}
           </>
         ) : (
-          <p className="text-white mb-4">You have no subscriptions. Choose a membership to get started.</p>
+          <p className="no-subscription">You have no subscriptions. Choose a membership to get started.</p>
         )}
 
-        {/* DELETE ACCOUNT & LOGOUT */}
-        <div className="flex gap-4 mt-4">
+        <div className="dashboard-actions">
           <Button
             onClick={handleDeleteAccount}
             variant="destructive"
             disabled={deleting}
           >
-            {deleting ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Delete Account"}
+            {deleting ? <Loader2 className="button-spinner" /> : "Delete Account"}
           </Button>
 
           <Button
@@ -197,7 +173,7 @@ export default function DashboardPage() {
             variant="secondary"
             disabled={loggingOut}
           >
-            {loggingOut ? <Loader2 className="w-5 h-5 mr-2 animate-spin" /> : "Logout"}
+            {loggingOut ? <Loader2 className="button-spinner" /> : "Logout"}
           </Button>
         </div>
       </main>

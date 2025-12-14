@@ -10,39 +10,26 @@ export default function AdminLoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Redirect if already logged in
   useEffect(() => {
     const adminEmail = sessionStorage.getItem("admin_email");
-    if (adminEmail) {
-      router.replace("/admin-dashboard");
-    }
+    if (adminEmail) router.replace("/admin-dashboard");
   }, [router]);
 
   const handleLogin = async () => {
     setLoading(true);
-
     try {
       const res = await fetch("/api/admin-login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          password: password.trim(),
-        }),
+        body: JSON.stringify({ email: email.trim(), password: password.trim() }),
       });
-
       const data = await res.json();
-
       if (!res.ok || !data.success) {
         alert(data.message || "Invalid credentials");
         setLoading(false);
         return;
       }
-
-      // Save login state
       sessionStorage.setItem("admin_email", email.trim());
-
-      // Redirect to dashboard
       router.push("/admin-dashboard");
     } catch (err) {
       console.error(err);
@@ -52,18 +39,16 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-white text-center">
-          Admin Login
-        </h2>
+    <div className="login-page">
+      <div className="login-card">
+        <h2 className="login-title">Admin Login</h2>
 
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full mb-4 p-2 rounded"
+          className="input-field"
         />
 
         <input
@@ -71,14 +56,10 @@ export default function AdminLoginPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full mb-6 p-2 rounded"
+          className="input-field"
         />
 
-        <Button
-          onClick={handleLogin}
-          className="w-full"
-          disabled={loading}
-        >
+        <Button onClick={handleLogin} className="primary-button full" disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </Button>
       </div>

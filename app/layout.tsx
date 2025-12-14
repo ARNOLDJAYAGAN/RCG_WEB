@@ -9,7 +9,6 @@ import { Suspense } from "react"
 export const metadata: Metadata = {
   title: "RCG Fitness - Transform Your Body, Elevate Your Life",
   description: "Join RCG Fitness for world-class training facilities, expert guidance, and a supportive community.",
-  generator: "v0.app",
 }
 
 export default function RootLayout({

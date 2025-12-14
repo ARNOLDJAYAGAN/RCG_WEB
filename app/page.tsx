@@ -34,142 +34,129 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="page">
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 text-center">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance">
-          Transform Your Body, <span className="text-primary">Elevate Your Life</span>
+      <section className="hero">
+        <h1 className="hero-title">
+          Transform Your Body, <span className="highlight">Elevate Your Life</span>
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto text-pretty">
+        <p className="hero-text">
           Join RCG Fitness and experience world-class training facilities, expert guidance, and a
           community that pushes you to achieve your fitness goals.
         </p>
 
         {!user && (
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button
-              asChild
-              className="px-8 py-6 text-lg font-semibold bg-primary text-white hover:bg-primary/90"
-            >
+          <div className="hero-actions">
+            <Button asChild className="primary-button">
               <a href="/auth">Start Your Journey Today</a>
             </Button>
 
-            <div className="flex gap-6 text-lg font-medium">
-              <a
-                href="#facilities"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Facilities
-              </a>
-              <a
-                href="#membership"
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Membership
-              </a>
+            <div className="hero-links">
+              <a href="#facilities" className="link">Facilities</a>
+              <a href="#membership" className="link">Membership</a>
             </div>
           </div>
         )}
       </section>
 
       {/* Facilities */}
-      <section id="facilities" className="py-20 px-4 bg-card text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
-          Our <span className="text-primary">Facilities</span>
+      <section id="facilities" className="section facilities">
+        <h2 className="section-title">
+          Our <span className="highlight">Facilities</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          <Card className="bg-secondary border-border hover:border-primary transition-colors">
-            <CardContent className="p-6 text-center">
-              <Dumbbell className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Strength Training</h3>
-              <p className="text-muted-foreground">State-of-the-art equipment</p>
+        <div className="card-grid">
+          <Card className="card">
+            <CardContent className="card-content">
+              <Dumbbell className="icon" />
+              <h3 className="card-title">Strength Training</h3>
+              <p className="card-text">State-of-the-art equipment</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-secondary border-border hover:border-primary transition-colors">
-            <CardContent className="p-6 text-center">
-              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Group Classes</h3>
-              <p className="text-muted-foreground">Dynamic group sessions</p>
+          <Card className="card">
+            <CardContent className="card-content">
+              <Users className="icon" />
+              <h3 className="card-title">Group Classes</h3>
+              <p className="card-text">Dynamic group sessions</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-secondary border-border hover:border-primary transition-colors">
-            <CardContent className="p-6 text-center">
-              <Clock className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">24/7 Access</h3>
-              <p className="text-muted-foreground">Train anytime</p>
+          <Card className="card">
+            <CardContent className="card-content">
+              <Clock className="icon" />
+              <h3 className="card-title">24/7 Access</h3>
+              <p className="card-text">Train anytime</p>
             </CardContent>
           </Card>
 
-          <Card className="bg-secondary border-border hover:border-primary transition-colors">
-            <CardContent className="p-6 text-center">
-              <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">Personal Training</h3>
-              <p className="text-muted-foreground">Tailored coaching</p>
+          <Card className="card">
+            <CardContent className="card-content">
+              <Award className="icon" />
+              <h3 className="card-title">Personal Training</h3>
+              <p className="card-text">Tailored coaching</p>
             </CardContent>
           </Card>
         </div>
       </section>
 
       {/* Membership Plans */}
-      <section id="membership" className="py-20 px-4 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
-          Membership <span className="text-primary">Plans</span>
+      <section id="membership" className="section membership">
+        <h2 className="section-title">
+          Membership <span className="highlight">Plans</span>
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <Card className="border-border bg-secondary hover:border-primary transition-colors">
-            <CardContent className="p-8 text-center">
-              <Star className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2">Basic</h3>
-              <p className="text-muted-foreground mb-4">Perfect for beginners</p>
-              <p className="text-4xl font-bold mb-6">₱499<span className="text-lg font-normal">/month</span></p>
-              <ul className="space-y-2 text-muted-foreground mb-6">
-                <li>✔ Unlimited Gym Access</li>
-                <li>✔ Basic Equipment</li>
-                <li>✔ Locker Room Access</li>
+        <div className="card-grid">
+          <Card className="card">
+            <CardContent className="card-content">
+              <Star className="icon" />
+              <h3 className="card-title">Basic</h3>
+              <p className="card-text">Perfect for beginners</p>
+              <p className="price">₱499 / month</p>
+              <ul className="list">
+                <li>Unlimited Gym Access</li>
+                <li>Basic Equipment</li>
+                <li>Locker Room Access</li>
               </ul>
-              <Button className="w-full" onClick={() => goToPayment("Basic", 499)}>
+              <Button className="full-button" onClick={() => goToPayment("Basic", 499)}>
                 Choose Plan
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="border-border bg-secondary hover:border-primary transition-colors">
-            <CardContent className="p-8 text-center">
-              <Award className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2">Standard</h3>
-              <p className="text-muted-foreground mb-4">Best for active members</p>
-              <p className="text-4xl font-bold mb-6">₱999<span className="text-lg font-normal">/month</span></p>
-              <ul className="space-y-2 text-muted-foreground mb-6">
-                <li>✔ Unlimited Gym Access</li>
-                <li>✔ Group Classes</li>
-                <li>✔ Priority Locker</li>
-                <li>✔ Trainer Assistance</li>
+          <Card className="card">
+            <CardContent className="card-content">
+              <Award className="icon" />
+              <h3 className="card-title">Standard</h3>
+              <p className="card-text">Best for active members</p>
+              <p className="price">₱999 / month</p>
+              <ul className="list">
+                <li>Unlimited Gym Access</li>
+                <li>Group Classes</li>
+                <li>Priority Locker</li>
+                <li>Trainer Assistance</li>
               </ul>
-              <Button className="w-full" onClick={() => goToPayment("Standard", 999)}>
+              <Button className="full-button" onClick={() => goToPayment("Standard", 999)}>
                 Choose Plan
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="border-border bg-secondary hover:border-primary transition-colors">
-            <CardContent className="p-8 text-center">
-              <Users className="w-12 h-12 text-primary mx-auto mb-4" />
-              <h3 className="text-2xl font-bold mb-2">Premium</h3>
-              <p className="text-muted-foreground mb-4">Full experience for serious lifters</p>
-              <p className="text-4xl font-bold mb-6">₱1,499<span className="text-lg font-normal">/month</span></p>
-              <ul className="space-y-2 text-muted-foreground mb-6">
-                <li>✔ 24/7 Gym Access</li>
-                <li>✔ All Group Classes</li>
-                <li>✔ Free Personal Training (2 sessions)</li>
-                <li>✔ Sauna & Premium Locker</li>
+          <Card className="card">
+            <CardContent className="card-content">
+              <Users className="icon" />
+              <h3 className="card-title">Premium</h3>
+              <p className="card-text">Full experience for serious lifters</p>
+              <p className="price">₱1,499 / month</p>
+              <ul className="list">
+                <li>24/7 Gym Access</li>
+                <li>All Group Classes</li>
+                <li>Free Personal Training (2 sessions)</li>
+                <li>Sauna & Premium Locker</li>
               </ul>
-              <Button className="w-full" onClick={() => goToPayment("Premium", 1499)}>
+              <Button className="full-button" onClick={() => goToPayment("Premium", 1499)}>
                 Choose Plan
               </Button>
             </CardContent>
@@ -178,8 +165,8 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-border text-center">
-        <p className="text-muted-foreground">© 2025 RCG Fitness. All rights reserved.</p>
+      <footer className="footer">
+        <p>© 2025 RCG Fitness. All rights reserved.</p>
       </footer>
     </div>
   );
