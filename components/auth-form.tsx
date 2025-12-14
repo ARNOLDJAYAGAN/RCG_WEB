@@ -38,11 +38,13 @@ export function AuthForm() {
           setLoading(false);
           return;
         }
+
         if (password !== confirmPassword) {
           setError("Passwords do not match");
           setLoading(false);
           return;
         }
+
         if (password.length < 6) {
           setError("Password must be at least 6 characters");
           setLoading(false);
@@ -73,15 +75,23 @@ export function AuthForm() {
   };
 
   return (
-    <div className="auth-page">
-      <h1 className="auth-header" onClick={() => router.push("/")}>RCG Fitness</h1>
+    <div className="flex flex-col items-center min-h-screen justify-center px-4 bg-background">
+      
+      {/* Clickable RCG Fitness header */}
+      <h1
+        className="text-4xl font-bold text-primary mb-8 cursor-pointer"
+        onClick={() => router.push("/")}
+      >
+        RCG Fitness
+      </h1>
 
-      <Card className="auth-card">
-        <CardHeader className="auth-card-header">
-          <CardTitle className="auth-card-title">
+      {/* Wider card */}
+      <Card className="w-full max-w-4xl md:max-w-3xl lg:max-w-5xl bg-card border-border">
+        <CardHeader className="text-center md:text-left">
+          <CardTitle className="text-2xl font-bold">
             {isLogin ? "Welcome Back" : "Create Account"}
           </CardTitle>
-          <CardDescription className="auth-card-description">
+          <CardDescription className="text-muted-foreground">
             {isLogin
               ? "Sign in to continue your fitness journey"
               : "Start your transformation today"}
@@ -89,9 +99,9 @@ export function AuthForm() {
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleSubmit} className="auth-form">
+          <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-6">
             {!isLogin && (
-              <div className="form-group">
+              <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
@@ -104,7 +114,7 @@ export function AuthForm() {
               </div>
             )}
 
-            <div className="form-group">
+            <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
@@ -116,7 +126,7 @@ export function AuthForm() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
@@ -129,7 +139,7 @@ export function AuthForm() {
             </div>
 
             {!isLogin && (
-              <div className="form-group">
+              <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
                   id="confirmPassword"
@@ -142,19 +152,35 @@ export function AuthForm() {
               </div>
             )}
 
-            <div className="form-actions">
-              {error && <div className="form-error">{error}</div>}
+            {/* Full width error and buttons below the inputs */}
+            <div className="md:col-span-2">
+              {error && (
+                <div className="text-destructive text-sm bg-destructive/10 p-3 rounded-md mb-4">
+                  {error}
+                </div>
+              )}
 
-              <Button type="submit" className="primary-button full" disabled={loading}>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold mb-4"
+              >
                 {loading ? (
-                  <><Loader2 className="button-spinner" /> Please wait</>
-                ) : isLogin ? "Sign In" : "Create Account"}
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                  </>
+                ) : isLogin ? (
+                  "Sign In"
+                ) : (
+                  "Create Account"
+                )}
               </Button>
 
-              <div className="form-toggle">
+              <div className="text-center text-sm">
                 <button
                   type="button"
-                  className="toggle-button"
+                  className="text-primary hover:underline"
                   onClick={() => {
                     setIsLogin(!isLogin);
                     setError("");

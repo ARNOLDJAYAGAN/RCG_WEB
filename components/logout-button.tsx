@@ -26,7 +26,7 @@ export function LogoutButton() {
   }
 
   return (
-    <Button onClick={handleLogout} className="LogOut">
+    <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white">
       Logout
     </Button>
   )

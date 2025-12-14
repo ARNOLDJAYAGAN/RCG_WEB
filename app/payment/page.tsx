@@ -21,6 +21,7 @@ export default function PaymentPage() {
   const plan = searchParams.get("plan") || "Premium";
   const price = searchParams.get("price") || "1499";
 
+  // Fetch logged-in user
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -51,7 +52,7 @@ export default function PaymentPage() {
         credentials: "include",
         body: JSON.stringify({
           user_id: user.id,
-          email: user.email,
+          email: user.email, // added email
           plan,
           price: parseFloat(price),
           phone,
@@ -73,61 +74,63 @@ export default function PaymentPage() {
 
   if (loading)
     return (
-      <div className="loading-page">
-        <Loader2 className="loading-spinner" />
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <Loader2 className="animate-spin w-10 h-10 text-orange-500" />
       </div>
     );
 
   if (success)
     return (
-      <div className="success-page">
-        <CheckCircle className="success-icon" />
-        <h2 className="success-title">Subscription Pending!</h2>
-        <p className="success-text">Redirecting to dashboard...</p>
+      <div className="min-h-screen flex flex-col items-center justify-center text-center bg-black text-white">
+        <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
+        <h2 className="text-2xl font-bold">Subscription Pending!</h2>
+        <p>Redirecting to dashboard...</p>
       </div>
     );
 
   return (
-    <div className="page dark">
+    <div className="min-h-screen bg-black text-white">
       <SimpleHeader />
-
-      <main className="payment-container">
-        <Card className="payment-card">
+      <main className="container mx-auto px-4 py-24 max-w-lg">
+        <Card className="mb-6 bg-gray-900 border border-gray-700">
           <CardHeader>
-            <CardTitle className="payment-plan">Selected Plan: {plan}</CardTitle>
+            <CardTitle className="text-orange-500">Selected Plan: {plan}</CardTitle>
           </CardHeader>
-
           <CardContent>
-            <p className="payment-price">₱{price} / month</p>
+            <p className="text-3xl font-bold text-orange-500 mb-4">₱{price}/month</p>
 
+            {/* USER INFO */}
             <input
               type="text"
               placeholder="Full Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="input"
+              className="w-full border border-gray-700 bg-gray-800 text-white p-2 mb-4 rounded"
             />
-
             <input
               type="text"
               placeholder="Phone Number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="input"
+              className="w-full border border-gray-700 bg-gray-800 text-white p-2 mb-4 rounded"
             />
 
-            <div className="qr-section">
-              <p className="qr-label">Scan QR Code to Pay:</p>
-              <div className="qr-box">
+            {/* QR CODE / IMAGE */}
+            <div className="mb-4">
+              <p className="text-white mb-2">Scan QR Code to Pay:</p>
+              <div className="border border-gray-700 rounded p-4 flex justify-center items-center bg-gray-800">
                 <img
                   src="/images/qr.jpg"
                   alt="Payment QR Code"
-                  className="qr-image"
+                  className="w-48 h-48 object-contain"
                 />
               </div>
             </div>
 
-            <Button onClick={handleDone} className="primary-button full">
+            <Button
+              onClick={handleDone}
+              className="w-full bg-orange-500 text-black py-3 font-semibold hover:bg-orange-600"
+            >
               Done
             </Button>
           </CardContent>
