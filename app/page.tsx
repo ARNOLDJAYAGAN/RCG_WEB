@@ -105,14 +105,15 @@ export default function HomePage() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-
           {/* Basic */}
           <Card className="border-border bg-secondary hover:border-primary transition-colors">
             <CardContent className="p-8 text-center">
               <Star className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2">Basic</h3>
               <p className="text-muted-foreground mb-4">Perfect for beginners</p>
-              <p className="text-4xl font-bold mb-6">₱499<span className="text-lg font-normal">/month</span></p>
+              <p className="text-4xl font-bold mb-6">
+                ₱499<span className="text-lg font-normal">/month</span>
+              </p>
               <ul className="space-y-2 text-muted-foreground mb-6">
                 <li>✔ Unlimited Gym Access</li>
                 <li>✔ Basic Equipment</li>
@@ -130,7 +131,9 @@ export default function HomePage() {
               <Award className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2">Standard</h3>
               <p className="text-muted-foreground mb-4">Best for active members</p>
-              <p className="text-4xl font-bold mb-6">₱999<span className="text-lg font-normal">/month</span></p>
+              <p className="text-4xl font-bold mb-6">
+                ₱999<span className="text-lg font-normal">/month</span>
+              </p>
               <ul className="space-y-2 text-muted-foreground mb-6">
                 <li>✔ Unlimited Gym Access</li>
                 <li>✔ Group Classes</li>
@@ -148,8 +151,12 @@ export default function HomePage() {
             <CardContent className="p-8 text-center">
               <Users className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-2xl font-bold mb-2">Premium</h3>
-              <p className="text-muted-foreground mb-4">Full experience for serious lifters</p>
-              <p className="text-4xl font-bold mb-6">₱1,499<span className="text-lg font-normal">/month</span></p>
+              <p className="text-muted-foreground mb-4">
+                Full experience for serious lifters
+              </p>
+              <p className="text-4xl font-bold mb-6">
+                ₱1,499<span className="text-lg font-normal">/month</span>
+              </p>
               <ul className="space-y-2 text-muted-foreground mb-6">
                 <li>✔ 24/7 Gym Access</li>
                 <li>✔ All Group Classes</li>
@@ -164,44 +171,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ⭐ Reviews Section */}
-      <section id="reviews" className="py-20 bg-secondary text-center">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12">
-          What Our <span className="text-primary">Members Say</span>
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {[
-            {
-              name: "John D.",
-              rating: 5,
-              comment: "Amazing experience! The gym has everything I need.",
-            },
-            {
-              name: "Maria P.",
-              rating: 4,
-              comment: "Great staff and clean facilities. Highly recommended!",
-            },
-            {
-              name: "Kevin R.",
-              rating: 5,
-              comment: "Best gym in town! The environment keeps me motivated.",
-            },
-          ].map((r, i) => (
-            <Card key={i} className="bg-card border-border shadow-lg">
-              <CardContent className="p-6">
-                <p className="text-primary text-xl mb-2">{"★".repeat(r.rating)}</p>
-                <p className="text-muted-foreground mb-4">{r.comment}</p>
-                <p className="font-medium">— {r.name}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="py-12 px-4 border-t border-border text-center">
-        <p className="text-muted-foreground">© 2025 RCG Fitness. All rights reserved.</p>
+        <p className="text-muted-foreground">
+          © 2025 RCG Fitness. All rights reserved.
+        </p>
       </footer>
     </div>
   );
